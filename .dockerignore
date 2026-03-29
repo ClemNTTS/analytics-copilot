@@ -1,0 +1,13 @@
+# Dépendances locales (on veut que Docker les installe lui-même)
+**/node_modules
+next-app/node_modules
+
+# Artifacts de build (Docker va générer les siens)
+next-app/.next
+next-app/out
+
+# Logs et divers
+npm-debug.log
+.git
+.gitignore
+.env.local

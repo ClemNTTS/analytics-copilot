@@ -1,0 +1,52 @@
+name: Build and Deploy to Azure
+
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+
+env:
+  ACR_NAME: acrpocnl2sql
+  RESOURCE_GROUP: rg-poc-nl2sql
+  CONTAINER_APP_NAME: ca-poc-nl2sql
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Log in to Azure
+        uses: azure/login@v2
+        with:
+          creds: ${{ secrets.AZURE_CREDENTIALS }}
+
+      - name: Log in to Azure Container Registry
+        uses: azure/docker-login@v2
+        with:
+          login-server: ${{ env.ACR_NAME }}.azurecr.io
+          username: ${{ secrets.ACR_USERNAME }}
+          password: ${{ secrets.ACR_PASSWORD }}
+
+      - name: Build and push Next-App image
+        run: |
+          docker build -t ${{ env.ACR_NAME }}.azurecr.io/next-app-poc:${{ github.sha }} -t ${{ env.ACR_NAME }}.azurecr.io/next-app-poc:latest -f Dockerfile .
+          docker push ${{ env.ACR_NAME }}.azurecr.io/next-app-poc:${{ github.sha }}
+          docker push ${{ env.ACR_NAME }}.azurecr.io/next-app-poc:latest
+
+      - name: Build and push Postgres-DB image
+        run: |
+          docker build -t ${{ env.ACR_NAME }}.azurecr.io/postgres-poc:${{ github.sha }} -t ${{ env.ACR_NAME }}.azurecr.io/postgres-poc:latest -f postgres.Dockerfile .
+          docker push ${{ env.ACR_NAME }}.azurecr.io/postgres-poc:${{ github.sha }}
+          docker push ${{ env.ACR_NAME }}.azurecr.io/postgres-poc:latest
+
+      - name: Deploy to Azure Container App
+        run: |
+          az config set extension.use_dynamic_install=yes_without_prompt
+          az containerapp update \
+            --name ${{ env.CONTAINER_APP_NAME }} \
+            --resource-group ${{ env.RESOURCE_GROUP }} \
+            --container-name next-app \
+            --image ${{ env.ACR_NAME }}.azurecr.io/next-app-poc:${{ github.sha }}

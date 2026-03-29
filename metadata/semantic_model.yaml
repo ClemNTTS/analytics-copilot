@@ -1,0 +1,92 @@
+tables:
+  - name: crm_customer
+    description: "Contient les informations de reference sur les clients."
+    synonyms: ["clients", "utilisateurs", "comptes", "customers"]
+    columns:
+      - name: id
+        description: "Identifiant unique du client."
+      - name: firstname
+        description: "Prenom du client."
+      - name: lastname
+        description: "Nom du client ou nom de l'entreprise."
+      - name: email
+        description: "Adresse email de contact."
+      - name: code
+        description: "Code client unique."
+      - name: address_city
+        description: "Ville de residence ou du siege."
+      - name: address_zipcode
+        description: "Code postal du client."
+      - name: created
+        description: "Date de creation dans le systeme."
+      - name: entity_type
+        description: "Type de client, INDIVIDUAL ou COMPANY."
+
+  - name: billing_subscription
+    description: "Decrit les abonnements, leur statut, leurs dates et leur MRR."
+    synonyms:
+      ["abonnements", "contrats", "souscriptions", "subscriptions", "produits", "offres", "services"]
+    columns:
+      - name: id
+        description: "Identifiant unique de l'abonnement."
+      - name: code
+        description: "Code de reference de l'abonnement."
+      - name: status
+        description: "Etat actuel de l'abonnement."
+      - name: subscription_date
+        description: "Date de debut effective."
+      - name: termination_date
+        description: "Date de fin ou de resiliation."
+      - name: offer_id
+        description: "Identifiant technique de l'offre. Il n'existe pas de table offer separee dans cette base."
+      - name: description
+        description: "Libelle fonctionnel de l'abonnement. Utiliser ce champ pour les analyses par offre, plan ou produit."
+      - name: mrr
+        description: "Monthly Recurring Revenue genere par cet abonnement."
+      - name: user_account_id
+        description: "Reference du client rattache."
+
+  - name: billing_invoice
+    description: "Recense les factures generees pour les clients."
+    synonyms: ["factures", "invoices", "recus"]
+    columns:
+      - name: id
+        description: "Identifiant unique de la facture."
+      - name: invoice_number
+        description: "Numero officiel de la facture."
+      - name: invoice_date
+        description: "Date d'emission."
+      - name: due_date
+        description: "Date limite de paiement."
+      - name: amount_with_tax
+        description: "Montant total TTC."
+      - name: amount_without_tax
+        description: "Montant HT."
+      - name: status
+        description: "Etat du paiement."
+      - name: billing_account_id
+        description: "Reference du client facture."
+      - name: subscription_id
+        description: "Reference de l'abonnement rattache."
+
+relationships:
+  - name: customer_subscriptions
+    description: "Lien entre un client et ses abonnements."
+    type: one_to_many
+    source: crm_customer
+    target: billing_subscription
+    join_on: "crm_customer.id = billing_subscription.user_account_id"
+
+  - name: subscription_invoices
+    description: "Lien entre un abonnement et ses factures."
+    type: one_to_many
+    source: billing_subscription
+    target: billing_invoice
+    join_on: "billing_subscription.id = billing_invoice.subscription_id"
+
+  - name: customer_invoices
+    description: "Lien direct entre un client et ses factures."
+    type: one_to_many
+    source: crm_customer
+    target: billing_invoice
+    join_on: "crm_customer.id = billing_invoice.billing_account_id"
