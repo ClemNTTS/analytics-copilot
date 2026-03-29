@@ -1,12 +1,13 @@
 # Analytics Copilot Demo
 
-Assistant analytique NL2SQL construit avec Next.js, PostgreSQL et un endpoint LLM compatible OpenAI. Le projet transforme des questions en langage naturel en requetes SQL, execute ces requetes sur un dataset SaaS fictif puis restitue une reponse interpretee avec visualisation optionnelle.
+Assistant analytique NL2SQL construit avec Next.js, PostgreSQL et un endpoint LLM compatible OpenAI. Ce projet a ete prepare comme projet de selection pour Mistral. Il transforme des questions en langage naturel en requetes SQL, execute ces requetes sur un dataset SaaS fictif puis restitue une reponse interpretee avec visualisation optionnelle.
 
 ## Pourquoi ce projet
 
 - montrer un flux produit complet, de la question utilisateur jusqu'a l'insight exploitable
 - combiner UX conversationnelle, generation SQL et visualisation de donnees
 - proposer une base de demo realiste, mais entierement anonymisee
+- presenter un prototype produit clair, lisible et demo-ready pour Mistral
 
 ## Capacites
 
@@ -45,11 +46,11 @@ Assistant analytique NL2SQL construit avec Next.js, PostgreSQL et un endpoint LL
 - [`next-app`](./next-app) : application Next.js
 - [`db/init.sql`](./db/init.sql) : schema et jeu de donnees de demonstration
 - [`metadata/semantic_model.yaml`](./metadata/semantic_model.yaml) : couche semantique utilisee dans les prompts
-- [`terraform`](./terraform) : infrastructure d'exemple
 
 ## Notes
 
 - Toutes les donnees presentes dans la base sont fictives.
 - Le repo est prepare pour un usage public de demonstration.
+- Le scope du repo est volontairement centre sur le produit et l'experience de demo, sans couche de deploiement infra.
 - `AI_API_KEY` et `DATABASE_URL` sont les variables recommandees.
 - `MISTRAL_API_KEY` et `DB_CONNEXION_STRING` restent acceptes en fallback pour compatibilite locale.

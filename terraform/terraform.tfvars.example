@@ -1,7 +1,0 @@
-location               = "westeurope"
-project_name           = "analytics-copilot-demo"
-mistral_api_key        = "YOUR_MISTRAL_API_KEY"
-db_username            = "llm_user"
-db_password            = "YOUR_DB_PASSWORD"
-postgres_admin_password = "YOUR_POSTGRES_ADMIN_PASSWORD"
-acr_name               = "acranalyticscopilot"
