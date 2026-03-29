@@ -54,3 +54,15 @@ Assistant analytique NL2SQL construit avec Next.js, PostgreSQL et un endpoint LL
 - Le scope du repo est volontairement centre sur le produit et l'experience de demo, sans couche de deploiement infra.
 - `AI_API_KEY` et `DATABASE_URL` sont les variables recommandees.
 - `MISTRAL_API_KEY` et `DB_CONNEXION_STRING` restent acceptes en fallback pour compatibilite locale.
+
+## Screens
+
+  <img width="1917" height="984" alt="image" src="https://github.com/user-attachments/assets/3e636179-6304-45b4-9ec4-e6f25bb3b129" />
+
+
+  <img width="1660" height="966" alt="image" src="https://github.com/user-attachments/assets/e7f7554a-fba7-4554-88d8-ea69127d8e1d" />
+
+  <img width="1919" height="983" alt="image" src="https://github.com/user-attachments/assets/d34af1bd-a287-4faa-9dc1-1cab1e190f8e" />
+
+
+
